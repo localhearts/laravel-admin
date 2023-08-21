@@ -48,7 +48,7 @@ class AttendanceController extends Controller
                 ->removeColumn('id')
                 ->make(true);
         }
-        return view('attendance');
+        return view('attendances.index');
     }
 
     public function attendance(Request $request)

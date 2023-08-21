@@ -40,7 +40,7 @@ class EmployeeController extends Controller
        
         }
         
-        return view('employee');
+        return view('employees.index');
     }
 
    

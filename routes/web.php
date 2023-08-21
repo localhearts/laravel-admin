@@ -30,5 +30,14 @@ Route::get('attendance', [App\Http\Controllers\AttendanceController::class, 'ind
 Route::get('attendance-dashboard', [App\Http\Controllers\AttendanceController::class, 'attendance'])->name('attendance.dashboard');
 Route::post('import-attendance',[App\Http\Controllers\AttendanceController::class,'import'])->name('import-attendance');
 Route::get('export-attendance',[App\Http\Controllers\AttendanceController::class,'export'])->name('export-attendance');  
+
+// Reimbersment
+Route::get('reimbursement', [App\Http\Controllers\ReimbursementController::class, 'index'])->name('reimbursement.index');
+
+
+//Tasks List
+// Reimbersment
+Route::get('tasks', [App\Http\Controllers\TaskController::class, 'index'])->name('tasks.index');
+
 //Language Translation
 Route::get('index/{locale}', [App\Http\Controllers\HomeController::class, 'lang']);

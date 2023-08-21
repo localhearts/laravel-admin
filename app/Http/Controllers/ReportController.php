@@ -2,25 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Reimbursement;
+use App\Models\Report;
 use Illuminate\Http\Request;
 
-class ReimbursementController extends Controller
+class ReportController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-
-     public function __construct()
-     {
-         $this->middleware('auth');
-     }
-
     public function index()
     {
-       return view('reimbursements.index');
+        //
     }
 
     /**
@@ -47,10 +41,10 @@ class ReimbursementController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Reimbursement  $reimbursement
+     * @param  \App\Models\Report  $report
      * @return \Illuminate\Http\Response
      */
-    public function show(Reimbursement $reimbursement)
+    public function show(Report $report)
     {
         //
     }
@@ -58,10 +52,10 @@ class ReimbursementController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Reimbursement  $reimbursement
+     * @param  \App\Models\Report  $report
      * @return \Illuminate\Http\Response
      */
-    public function edit(Reimbursement $reimbursement)
+    public function edit(Report $report)
     {
         //
     }
@@ -70,10 +64,10 @@ class ReimbursementController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Reimbursement  $reimbursement
+     * @param  \App\Models\Report  $report
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Reimbursement $reimbursement)
+    public function update(Request $request, Report $report)
     {
         //
     }
@@ -81,10 +75,10 @@ class ReimbursementController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Reimbursement  $reimbursement
+     * @param  \App\Models\Report  $report
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Reimbursement $reimbursement)
+    public function destroy(Report $report)
     {
         //
     }

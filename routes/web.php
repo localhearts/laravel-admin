@@ -36,8 +36,14 @@ Route::get('reimbursement', [App\Http\Controllers\ReimbursementController::class
 
 
 //Tasks List
-// Reimbersment
 Route::get('tasks', [App\Http\Controllers\TaskController::class, 'index'])->name('tasks.index');
+
+
+// Usermanagement
+
+Route::get('user-management', [App\Http\Controllers\UserController::class, 'index'])->name('users.index');
+
+
 
 //Language Translation
 Route::get('index/{locale}', [App\Http\Controllers\HomeController::class, 'lang']);

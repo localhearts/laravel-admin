@@ -24,4 +24,5 @@ return [
   "On_Progress" => "On Progress",
   "Pending" => "Pending",
   "Greetings" => "Welcome Back",
+  "Login" => "Login"
 ];

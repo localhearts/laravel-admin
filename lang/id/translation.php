@@ -24,5 +24,6 @@ return [
   "On_Progress" => "Sedang Berlangsung",
   "Pending" => "Tertunda",
   "Greetings" => "Selamat Datang Kembali",
+  "Login" => "Masuk"
 
 ];

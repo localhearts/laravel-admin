@@ -35,8 +35,14 @@ Route::get('export-attendance',[App\Http\Controllers\AttendanceController::class
 Route::get('reimbursement', [App\Http\Controllers\ReimbursementController::class, 'index'])->name('reimbursement.index');
 
 
+Route::resources([
+    'tasks' => App\Http\Controllers\TaskController::class,
+]);
+
 //Tasks List
-Route::get('tasks', [App\Http\Controllers\TaskController::class, 'index'])->name('tasks.index');
+//Route::resource('tasks', [App\Http\Controllers\TaskController::class, 'index'])->name('tasks.index');
+//Tasks List
+//Route::get('tasks/create', [App\Http\Controllers\TaskController::class, 'create'])->name('tasks.create');
 
 
 // Usermanagement

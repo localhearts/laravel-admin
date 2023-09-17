@@ -32,7 +32,11 @@ class TaskController extends Controller
                 ->get();
             return Datatables::of($data)->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $btn = '<a href="javascript:void(0)" class="btn btn-primary btn-sm">V</a> <a href="/tasks/'.$row->id.'/edit" class="btn btn-warning btn-sm">E</a> <a href="javascript:void(0)" class="btn btn-danger btn-sm">D</a>';
+                    $btn = '<a href="javascript:void(0)" class="btn btn-primary btn-sm">V</a> <a href="/tasks/'.$row->id.'/edit" class="btn btn-warning btn-sm">E</a> <form action="/tasks/'.$row->id.'" method="POST" style="display: inline-block;">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="_token" value="'.csrf_token().'">
+                    <button type="submit" class="btn btn-danger btn-sm">D</button>
+                </form>';
                     return $btn;
                 })
                 ->editColumn('start_date', function ($data) {
@@ -85,7 +89,7 @@ class TaskController extends Controller
             'employee_id' => $request->employee,
         ]);
 
-        return redirect()->back()->with('success', 'Task Created Successfully');
+        return redirect()->route('tasks.index')->with('success', 'Task Created Successfully');
 
         // Eloquent Store Data
 
@@ -151,6 +155,8 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        //
+        $task->delete();
+        //redirect to index
+        return redirect()->route('tasks.index')->with(['success' => 'Task Deleted Successfully']);
     }
 }

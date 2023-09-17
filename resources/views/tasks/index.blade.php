@@ -13,21 +13,24 @@
 @slot('li_1') Apps @endslot
 @slot('title') @lang('translation.Tasks') @endslot
 @endcomponent
+
 <div class="row">
 
     <div class="col-12">
-
+        @if (\Session::has('success'))
+        <div class="alert alert-success alert-dismissible" role="alert">{!! \Session::get('success') !!}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            </button>
+        </div>
+        @endif
         <div class="card">
 
             <div class="card-header bg-transparent border-bottom text-uppercase">
                 <div class="text-end">
-                    <button type="button" class="btn btn-danger waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#importEmployee">
-                        <i class="bx bx-archive-out font-size-20 align-middle me-2"></i> IMPORT
-                    </button>
 
-                    <button type="button" class="btn btn-success waves-effect waves-light">
-                        <i class="bx bx-archive-in font-size-20 align-middle me-2"></i> EXPORT
-                    </button>
+
+                    <a class="btn btn-success waves-effect waves-light" href="{{route('tasks.create')}}">
+                        <i class="bx bx-plus font-size-20 align-middle me-2"></i> ADD TASKS
+                    </a>
                 </div>
             </div>
             <div class="card-body">
@@ -129,6 +132,7 @@
         });
     });
 </script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 <!-- Required datatable js -->
 <script src="{{ URL::asset('/assets/libs/datatables/datatables.min.js') }}"></script>

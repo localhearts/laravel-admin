@@ -98,6 +98,8 @@ $status = ['Start', 'Pending', 'Finish'];
 <!-- Required datepicker js -->
 <script src=" {{ URL::asset('/assets/libs/select2/select2.min.js') }}"></script>
 <script src="{{ URL::asset('/assets/libs/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
 <script>
     $('#start').datepicker({
         format: 'dd/mm/yyyy'
@@ -107,6 +109,8 @@ $status = ['Start', 'Pending', 'Finish'];
     });
 
     $('.select2').select2();
+  
+
 </script>
 
 

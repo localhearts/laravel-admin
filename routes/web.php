@@ -38,6 +38,13 @@ Route::get('reimbursement', [App\Http\Controllers\ReimbursementController::class
 Route::resources([
     'tasks' => App\Http\Controllers\TaskController::class,
 ]);
+Route::resources([
+    'user-management' => App\Http\Controllers\UserController::class,
+]);
+
+Route::resources([
+    'daily' => App\Http\Controllers\ReportController::class,
+]);
 
 //Tasks List
 //Route::resource('tasks', [App\Http\Controllers\TaskController::class, 'index'])->name('tasks.index');
@@ -47,7 +54,7 @@ Route::resources([
 
 // Usermanagement
 
-Route::get('user-management', [App\Http\Controllers\UserController::class, 'index'])->name('users.index');
+//Route::resources('user-management', [App\Http\Controllers\UserController::class, 'index'])->name('users.index');
 
 
 

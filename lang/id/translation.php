@@ -13,6 +13,7 @@ return [
   "Data_Tables" => "Data Tables",
   "Profile" => "Profil",
   "Settings" => "Pengaturan",
+  "Change_Password" => "Ganti Password",
   "Lock_screen" => "Layar kunci",
   "Daily_Report" => "Laporan Harian",
   "Logout" => "Keluar",
@@ -24,6 +25,8 @@ return [
   "On_Progress" => "Sedang Berlangsung",
   "Pending" => "Tertunda",
   "Greetings" => "Selamat Datang Kembali",
-  "Login" => "Masuk"
+  "Login" => "Masuk",
 
+  "Create" => "Buat",
+  "Edit" => "Ubah",
 ];

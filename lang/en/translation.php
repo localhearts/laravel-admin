@@ -12,7 +12,7 @@ return [
   "Apps" => "Apps",
   "Data_Tables" => "Data Tables",
   "Profile" => "Profile",
-  "My_Wallet" => "My Wallet",
+  "Change_Password" => "Change Password",
   "Settings" => "Settings",
   "Lock_screen" => "Lock screen",
   "Daily_Report" => "Daily Report",
@@ -24,5 +24,8 @@ return [
   "On_Progress" => "On Progress",
   "Pending" => "Pending",
   "Greetings" => "Welcome Back",
-  "Login" => "Login"
+  "Login" => "Login",
+
+  "Create" => "Create",
+  "Edit" => "Edit",
 ];

@@ -10,6 +10,10 @@
 
 @section('content')
 
+@php
+$status = ['Start', 'Pending', 'Finish'];
+@endphp
+
 @component('components.breadcrumb')
 @slot('li_1') Apps @endslot
 @slot('title') @lang('translation.Tasks') @endslot
@@ -25,25 +29,25 @@
         </div>
         @endif
         <div class="card">
-
             <div class="card-body">
                 <h4 class="card-title mb-4">Create New Task</h4>
-                <form class="outer-repeater" method="post" action="{{ route('tasks.store')}} ">
+                <form action="{{ route('tasks.update', $task->id) }}" method="POST">
                     @csrf
+                    @method('PUT')
                     <div data-repeater-list="outer-group" class="outer">
                         <div data-repeater-item class="outer">
                             <div class="form-group row mb-4">
                                 <label for="taskname" class="col-form-label col-lg-2">Task Name</label>
                                 <div class="col-lg-10">
-                                    <input id="taskname" name="taskname" type="text" class="form-control" placeholder="Enter Task Name..." required>
+                                    <input id="taskname" name="taskname" type="text" class="form-control" placeholder="Enter Task Name..." value="{{$task->task}}" required>
                                 </div>
                             </div>
                             <div class="form-group row mb-4">
                                 <label class="col-form-label col-lg-2">Task Date</label>
                                 <div class="col-lg-10">
                                     <div class="input-daterange input-group" data-provide="datepicker">
-                                        <input type="text" class="form-control" placeholder="Start Date" name="start" id="start" required />
-                                        <input type="text" class="form-control" placeholder="End Date" name="end" id="end" />
+                                        <input type="text" class="form-control" placeholder="Start Date" name="start" id="start" value="{{ date('d/m/Y', strtotime($task->start_date)) }}" required />
+                                        <input type="text" class="form-control" placeholder="End Date" name="end" id="end" value="{{ date('d/m/Y', strtotime($task->end_date)) }}" required />
                                     </div>
                                 </div>
                             </div>
@@ -52,8 +56,9 @@
                                 <div class="col-lg-10">
                                     <select class="form-control select2" name="employee" data-placeholder="Choose ...">
                                         <option value="">Select Employee</option>
+
                                         @foreach($emp as $employee)
-                                        <option value="{{ $employee->id }}">{{ $employee->fullname }}</option>
+                                        <option value="{{$employee->id}}" {{ ($employee->id === $task->employee_id) ? 'selected' : '' }}>{{$employee->fullname}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -62,10 +67,10 @@
                                 <label for="taskbudget" class="col-form-label col-lg-2">Status</label>
                                 <div class="col-lg-10">
                                     <select class="form-control select2" name="status" data-placeholder="Choose ...">
-                                        <option value="">Select Employee</option>
-                                        <option value="1">Start</option>
-                                        <option value="2">Pending</option>
-                                        <option value="3">Finish</option>
+                                        <option value="">Select Status</option>
+                                        @foreach($status as $key => $value)
+                                        <option value="{{$key}}" {{ ($key === $task->status) ? 'selected' : '' }}>{{$value}}</option>
+                                        @endforeach
 
                                     </select>
                                 </div>

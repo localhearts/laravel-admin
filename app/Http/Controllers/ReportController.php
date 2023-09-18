@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Report;
+use App\Models\Task;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller
@@ -24,7 +25,8 @@ class ReportController extends Controller
      */
     public function create()
     {
-        return view('reports.create');
+        $task = Task::where('status', '0')->get();
+        return view('reports.create', compact('task'));
     }
 
     /**

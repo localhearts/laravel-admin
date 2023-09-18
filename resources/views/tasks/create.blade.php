@@ -63,9 +63,9 @@
                                 <div class="col-lg-10">
                                     <select class="form-control select2" name="status" data-placeholder="Choose ...">
                                         <option value="">Select Employee</option>
-                                        <option value="1">Start</option>
-                                        <option value="2">Pending</option>
-                                        <option value="3">Finish</option>
+                                        <option value="0">Start</option>
+                                        <option value="1">Pending</option>
+                                        <option value="2">Finish</option>
 
                                     </select>
                                 </div>

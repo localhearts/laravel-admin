@@ -35,32 +35,29 @@
                             <div class="form-group row mb-4">
                                 <label for="taskname" class="col-form-label col-lg-2">Task Name</label>
                                 <div class="col-lg-10">
-                                    <select class="form-control select2" name="task_id" data-placeholder="Choose ...">
-                                        <option value="">Select Task</option>
-
-                                        @foreach($task as $tasks)
-                                        <option value="{{$tasks->id}}">{{$tasks->task}}</option>
-                                        @endforeach
+                                    <select class="form-control select2" name="task_id" data-placeholder="Choose ..." disabled>                                        
+                                        <option value="{{$task->id}}" selected>{{$task->task}}</option>
+                                      
                                     </select>
                                 </div>
                             </div>
                             <div class="form-group row mb-4">
                                 <label class="col-form-label col-lg-2">Report Description</label>
                                 <div class="col-lg-10">
-                                    <textarea name="description" class="form-control" rows="3"></textarea>
+                                    <textarea name="description" class="form-control" rows="3" disabled>{{$daily->description}}</textarea>
                                 </div>
                             </div>
                             <div class="form-group row mb-4">
                                 <label for="taskbudget" class="col-form-label col-lg-2">Screenshot</label>
                                 <div class="col-lg-10">
-                                    <input type="file" name="image" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" />
+                                    <img src="{{ URL::asset('images/'.$daily->capture)}}" width="600px" height="400px">
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row justify-content-end">
                         <div class="col-lg-10">
-                            <button type="submit" class="btn btn-primary">Create Task</button>
+                            <a href="{{ route('daily.index') }}" class="btn btn-primary">Back</a>
                         </div>
                     </div>
                 </form>

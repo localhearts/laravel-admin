@@ -9,6 +9,7 @@ class Task extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'id',
         'task',
         'employee_id',
         'status',
@@ -19,5 +20,9 @@ class Task extends Model
     public function employee()
     {
         return $this->belongsTo(Employee::class);
+    }
+    public function report()
+    {
+        return $this->hasMany(Report::class);
     }
 }

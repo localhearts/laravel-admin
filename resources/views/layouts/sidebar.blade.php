@@ -16,6 +16,7 @@
                     </a>
                 </li>
                 <li class="menu-title" key="t-apps">@lang('translation.Apps')</li>
+            @if(Auth::user()->roles == '1')
                 <li>
                     <a href="{{ URL('employee') }}" class="waves-effect">
                         <i class="bx bx-body"></i>
@@ -28,6 +29,7 @@
                         <span key="t-attendance">@lang('translation.Attendance')</span>
                     </a>
                 </li>
+            @endif
                 <!-- <li>
 <a href="{{ URL('reimbursement') }}" class="waves-effect">
 <i class="bx bx-money"></i>
@@ -46,13 +48,14 @@
                         <span key="t-daily">@lang('translation.Daily_Report')</span>
                     </a>
                 </li>
+            @if(Auth::user()->roles == '1')
                 <li>
                     <a href="{{ URL('user-management') }}" class="waves-effect">
                         <i class="bx bx-user-circle"></i>
                         <span key="t-management">@lang('translation.User_Management')</span>
                     </a>
                 </li>
-
+            @endif
             </ul>
         </div>
         <!-- Sidebar -->

@@ -27,6 +27,9 @@ class EmployeeController extends Controller
 
     public function index(Request $request)
     {
+        if(Auth::user()->roles != '1'){
+            return abort(404);
+        }
         if ($request->ajax()) {
 
                 $data = Employee::get();
@@ -43,14 +46,7 @@ class EmployeeController extends Controller
         return view('employees.index');
     }
 
-   
-    public function profile(Request $request)
-    {
-      
-        $data = Employee::where('id', '116040322')->first();
-     
-        return view('home', compact('data'));
-    }    
+
 
     /**
      * Show the form for creating a new resource.

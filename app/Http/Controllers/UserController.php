@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\DataTables;
 
 class UserController extends Controller
 {
@@ -13,13 +15,37 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     public function __construct()
-     {
-         $this->middleware('auth');
-     }
-
-    public function index()
+    public function __construct()
     {
+        $this->middleware('auth');
+        
+    }
+
+    public function index(Request $request)
+    {
+        if(Auth::user()->roles != '1'){
+            return abort(404);
+        }
+
+        if ($request->ajax()) {
+            $data = User::with(['employee' => function ($query) {
+                $query->select('id', 'fullname', 'position');
+            }])->get();
+
+            return Datatables::of($data)->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $btn = '<a href="javascript:void(0)" class="btn btn-primary btn-sm">View</a>';
+                    return $btn;
+                })
+                ->editColumn('roles', function ($data) {
+                    return  $data->status == 1 ? 'SUPER ADMIN' : 'MEMBER';
+                })
+                ->editColumn('status', function ($data) {
+                    return  $data->status == 1 ? 'ACTIVE' : 'DEAD ACTIVE';
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
         return view('users.index');
     }
 
@@ -30,6 +56,9 @@ class UserController extends Controller
      */
     public function create()
     {
+        if(Auth::user()->roles != '1'){
+            return abort(404);
+        }
         //
     }
 
@@ -41,6 +70,9 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        if(Auth::user()->roles != '1'){
+            return abort(404);
+        }
         //
     }
 
@@ -52,6 +84,9 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+        if(Auth::user()->roles != '1'){
+            return abort(404);
+        }
         //
     }
 
@@ -63,6 +98,9 @@ class UserController extends Controller
      */
     public function edit(Task $task)
     {
+        if(Auth::user()->roles != '1'){
+            return abort(404);
+        }
         //
     }
 
@@ -75,6 +113,9 @@ class UserController extends Controller
      */
     public function update(Request $request, Task $task)
     {
+        if(Auth::user()->roles != '1'){
+            return abort(404);
+        }
         //
     }
 
@@ -86,6 +127,9 @@ class UserController extends Controller
      */
     public function destroy(Task $task)
     {
+        if(Auth::user()->roles != '1'){
+            return abort(404);
+        }
         //
     }
 }

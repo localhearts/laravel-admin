@@ -25,7 +25,7 @@ return [
   "Pending" => "Pending",
   "Greetings" => "Welcome Back",
   "Login" => "Login",
-
+  "Error_404" => "Page Not Found",
   "Create" => "Create",
   "Edit" => "Edit",
 ];

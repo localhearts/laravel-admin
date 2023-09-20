@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Employee;
+use App\Models\Task;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -29,7 +30,8 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Employee::where('id', '116040322')->first();
+        
+        $data = Employee::where('id', Auth::user()->employee_id)->first();
 
         if (view()->exists($request->path())) {
             return view($request->path(),compact('data'));
@@ -39,9 +41,17 @@ class HomeController extends Controller
 
     public function root()
     {
-        $data = Employee::where('id', '116040627')->first();
+      
+        $data = Employee::where('id', Auth::user()->employee_id)->first();
+        $task = Task::where('employee_id', Auth::user()->employee_id)->where('status',0)->get();
+        
+        $start = Task::where('employee_id', Auth::user()->employee_id)->where('status',0)->count();
+        $pending = Task::where('employee_id', Auth::user()->employee_id)->where('status',1)->count();
+        $complate = Task::where('employee_id', Auth::user()->employee_id)->where('status',2)->count();
 
-        return view('index',compact('data'));
+
+
+        return view('index',compact('data','task', 'start', 'pending', 'complate'));
     }
 
     /*Language Translation*/

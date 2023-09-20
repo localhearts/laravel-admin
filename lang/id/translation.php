@@ -26,7 +26,7 @@ return [
   "Pending" => "Tertunda",
   "Greetings" => "Selamat Datang Kembali",
   "Login" => "Masuk",
-
+  "Error_404" => "Halaman Tidak Ditemukan",
   "Create" => "Buat",
   "Edit" => "Ubah",
 ];

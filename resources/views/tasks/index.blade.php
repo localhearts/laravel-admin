@@ -27,11 +27,12 @@
             <div class="card-header bg-transparent border-bottom text-uppercase">
                 <div class="text-end">
 
-
+                @if(Auth::user()->roles == '1')
                     <a class="btn btn-success waves-effect waves-light" href="{{route('tasks.create')}}">
                         <i class="bx bx-plus font-size-20 align-middle me-2"></i> ADD TASKS
                     </a>
                 </div>
+                @endif
             </div>
             <div class="card-body">
                 <table id="datatable" class="table table-bordered dt-responsive  nowrap w-100">

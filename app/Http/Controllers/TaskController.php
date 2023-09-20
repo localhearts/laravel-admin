@@ -6,6 +6,7 @@ use App\Models\Task;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
 class TaskController extends Controller
@@ -24,35 +25,69 @@ class TaskController extends Controller
 
     public function index(Request $request)
     {
-        if ($request->ajax()) {
+        if (Auth::user()->roles == '1') {
+            if ($request->ajax()) {
 
-            $data = Task::with(['employee' => function ($query) {
-                $query->select('id', 'fullname');
-            }])
-                ->get();
-            return Datatables::of($data)->addIndexColumn()
-                ->addColumn('action', function ($row) {
-                    $btn = '<a href="javascript:void(0)" class="btn btn-primary btn-sm">V</a> <a href="/tasks/'.$row->id.'/edit" class="btn btn-warning btn-sm">E</a> <form action="/tasks/'.$row->id.'" method="POST" style="display: inline-block;">
+                $data = Task::with(['employee' => function ($query) {
+                    $query->select('id', 'fullname');
+                }])
+                    ->get();
+                return Datatables::of($data)->addIndexColumn()
+                    ->addColumn('action', function ($row) {
+                        $btn = '<a href="/tasks/' . $row->id . '" class="btn btn-primary btn-sm">V</a> <a href="/tasks/' . $row->id . '/edit" class="btn btn-warning btn-sm">E</a> <form action="/tasks/' . $row->id . '" method="POST" style="display: inline-block;">
                     <input type="hidden" name="_method" value="DELETE">
-                    <input type="hidden" name="_token" value="'.csrf_token().'">
+                    <input type="hidden" name="_token" value="' . csrf_token() . '">
                     <button type="submit" class="btn btn-danger btn-sm">D</button>
                 </form>';
-                    return $btn;
-                })
-                ->editColumn('start_date', function ($data) {
-                    return $data->start_date ? with(new Carbon($data->start_date))->format('d M Y') : '';
-                })
-                ->editColumn('end_date', function ($data) {
-                    return $data->end_date ? with(new Carbon($data->end_date))->format('d M Y') : '';
-                })
-                ->editColumn('status', function ($data) {
-                   return  $data->status == 0 ? 'Start' : ($data->status == 1 ? 'Pending' : 'Finished');
-                })
-                ->rawColumns(['action'])
-                ->make(true);
-        }
+                        return $btn;
+                    })
+                    ->editColumn('start_date', function ($data) {
+                        return $data->start_date ? with(new Carbon($data->start_date))->format('d M Y') : '';
+                    })
+                    ->editColumn('end_date', function ($data) {
+                        return $data->end_date ? with(new Carbon($data->end_date))->format('d M Y') : '';
+                    })
+                    ->editColumn('status', function ($data) {
+                        return  $data->status == 0 ? 'Start' : ($data->status == 1 ? 'Pending' : 'Finished');
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+            }
 
-        return view('tasks.index');
+            return view('tasks.index');
+        } else {
+
+            if ($request->ajax()) {
+
+                $data = Task::with(['employee' => function ($query) {
+                    $query->select('id', 'fullname');
+                }])
+                    ->where('employee_id', Auth::user()->employee_id)
+                    ->get();
+                return Datatables::of($data)->addIndexColumn()
+                    ->addColumn('action', function ($row) {
+                        $btn = '<a href="/tasks/' . $row->id . '" class="btn btn-primary btn-sm">V</a> <a href="/tasks/' . $row->id . '/edit" class="btn btn-warning btn-sm">E</a> <form action="/tasks/' . $row->id . '" method="POST" style="display: inline-block;">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="_token" value="' . csrf_token() . '">
+                    <button type="submit" class="btn btn-danger btn-sm">D</button>
+                </form>';
+                        return $btn;
+                    })
+                    ->editColumn('start_date', function ($data) {
+                        return $data->start_date ? with(new Carbon($data->start_date))->format('d M Y') : '';
+                    })
+                    ->editColumn('end_date', function ($data) {
+                        return $data->end_date ? with(new Carbon($data->end_date))->format('d M Y') : '';
+                    })
+                    ->editColumn('status', function ($data) {
+                        return  $data->status == 0 ? 'Start' : ($data->status == 1 ? 'Pending' : 'Finished');
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+            }
+
+            return view('tasks.index');
+        }
     }
 
     /**
@@ -62,6 +97,10 @@ class TaskController extends Controller
      */
     public function create()
     {
+        if(Auth::user()->roles != '1'){
+            return abort(404);
+        }
+
         $emp = Employee::all();
 
         return view('tasks.create', compact('emp'));
@@ -103,7 +142,13 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        //
+        $task = Task::find($task->id);
+        if($task->employee_id != Auth::user()->employee_id){
+            return abort(404);
+        }
+        $emp = Employee::all();
+
+        return view('tasks.show', compact('task', 'emp'));
     }
 
     /**
@@ -114,10 +159,15 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
+       
         $task = Task::find($task->id);
+        
+        if($task->employee_id != Auth::user()->employee_id){
+            return abort(404);
+        }
         $emp = Employee::all();
 
-        return view('tasks.show', compact('task','emp'));
+        return view('tasks.edit', compact('task', 'emp'));
     }
 
     /**
@@ -134,7 +184,7 @@ class TaskController extends Controller
         $start_date = date('Y-m-d', strtotime($start));
         $end_date = date('Y-m-d', strtotime($end));
 
-       // dd($request->all());
+        // dd($request->all());
 
         $task->update([
             'task'     => $request->taskname,
@@ -144,7 +194,6 @@ class TaskController extends Controller
             'employee_id' => $request->employee,
         ]);
         return redirect()->route('tasks.index')->with(['success' => 'Task Updated Successfully']);
-
     }
 
     /**

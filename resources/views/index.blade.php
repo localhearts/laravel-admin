@@ -77,41 +77,10 @@
                 <h4 class="card-title mb-5">@lang('translation.Tasks')</h4>
                 <div class="">
                     <ul class="verti-timeline list-unstyled">
+                    @foreach($task as $tasks)
                         <li class="event-list active">
                             <div class="event-timeline-dot">
                                 <i class="bx bx-right-arrow-circle bx-fade-right"></i>
-                            </div>
-                            <div class="d-flex">
-                                <div class="flex-shrink-0 me-3">
-                                    <i class="bx bx-server h4 text-primary"></i>
-                                </div>
-                                <div class="flex-grow-1">
-                                    <div>
-                                        <h5 class="font-size-15"><a href="javascript: void(0);" class="text-dark">Back end Developer</a></h5>
-                                        <span class="text-primary">2016 - 19</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="event-list">
-                            <div class="event-timeline-dot">
-                                <i class="bx bx-right-arrow-circle"></i>
-                            </div>
-                            <div class="d-flex">
-                                <div class="flex-shrink-0 me-3">
-                                    <i class="bx bx-code h4 text-primary"></i>
-                                </div>
-                                <div class="flex-grow-1">
-                                    <div>
-                                        <h5 class="font-size-15"><a href="javascript: void(0);" class="text-dark">Front end Developer</a></h5>
-                                        <span class="text-primary">2013 - 16</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="event-list">
-                            <div class="event-timeline-dot">
-                                <i class="bx bx-right-arrow-circle"></i>
                             </div>
                             <div class="d-flex">
                                 <div class="flex-shrink-0 me-3">
@@ -119,13 +88,14 @@
                                 </div>
                                 <div class="flex-grow-1">
                                     <div>
-                                        <h5 class="font-size-15"><a href="javascript: void(0);" class="text-dark">UI /UX Designer</a></h5>
-                                        <span class="text-primary">2011 - 13</span>
-
+                                        <h5 class="font-size-15"><a href="javascript: void(0);" class="text-dark">{{$tasks->task}}</a></h5>
+                                        <span class="text-primary">{{\Carbon\Carbon::parse($tasks->start_date)->format('d M Y')}} - {{\Carbon\Carbon::parse($tasks->end_date)->format('d M Y')}}</span>
                                     </div>
                                 </div>
                             </div>
                         </li>
+                    @endforeach
+                        
                     </ul>
                 </div>
 
@@ -143,7 +113,7 @@
                         <div class="d-flex">
                             <div class="flex-grow-1">
                                 <p class="fw-medium mb-2">@lang('translation.Completed_Task')</p>
-                                <h4 class="mb-0">125</h4>
+                                <h4 class="mb-0">{{$complate}}</h4>
                             </div>
 
                             <div class="flex-shrink-0 align-self-center">
@@ -163,7 +133,7 @@
                         <div class="d-flex">
                             <div class="flex-grow-1">
                                 <p class="fw-medium mb-2">@lang('translation.On_Progress')</p>
-                                <h4 class="mb-0">12</h4>
+                                <h4 class="mb-0">{{$start}}</h4>
                             </div>
 
                             <div class="flex-shrink-0 align-self-center">
@@ -183,7 +153,7 @@
                         <div class="d-flex">
                             <div class="flex-grow-1">
                                 <p class="fw-medium mb-2">@lang('translation.Pending')</p>
-                                <h4 class="mb-0">0</h4>
+                                <h4 class="mb-0">{{$pending}}</h4>
                             </div>
 
                             <div class="flex-shrink-0 align-self-center">
@@ -202,22 +172,18 @@
             <div class="card-body">
                 <h4 class="card-title mb-4">@lang('translation.Daily_Report')</h4>
                 <div class="table-responsive">
-                    <table class="table table-nowrap table-hover mb-0">
+                    <table id="datatable-report" class="table table-nowrap table-hover mb-0">
                         <thead>
                             <tr>
-                                <th scope="col">FULL NAME</th>
+                                <th scope="col">EMPLOYEE ID</th>
+                                <th scope="col">FULLNAME</th>
                                 <th scope="col">TASK</th>
-                                <th scope="col">DETAIL</th>
+                                <th scope="col">DESCRIPTION</th>
+           
                             </tr>
                         </thead>
                         <tbody>
-                           @foreach($data->attendance as $atts)
-                            <tr>
-                                <th scope="row">{{$data->fullname}}</th>
-                                <td>LAPORAN PAJAK TAHUNAN</td>
-                                <td>SUDAH MELAPORKAN DATA PAJAK KE KEMENKEU</td>
-                            </tr>
-                            @endforeach
+                          
                         </tbody>
                     </table>
                 </div>
@@ -280,6 +246,32 @@
                     name: 'hours'
                 },
 
+            ]
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(function() {
+        var table = $('#datatable-report').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route('daily.index') }}",
+            columns: [{
+                    data: 'employee_id',
+                    name: 'employee_id'
+                },
+                {
+                    data: 'employee.fullname',
+                    name: 'employee.fullname'
+                },
+                {
+                    data: 'task.task',
+                    name: 'task.task'
+                },
+                {
+                    data: 'description',
+                    name: 'description'
+                },
             ]
         });
     });

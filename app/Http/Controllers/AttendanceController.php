@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\ImportAttendance;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
 class AttendanceController extends Controller
@@ -19,6 +20,9 @@ class AttendanceController extends Controller
      */
     public function index(Request $request)
     {
+        if(Auth::user()->roles != '1'){
+            return abort(404);
+        }
         if ($request->ajax()) {
 
             $data = Attendance::with(['employee' => function ($query) {

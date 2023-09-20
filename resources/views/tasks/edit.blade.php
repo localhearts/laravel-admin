@@ -30,29 +30,31 @@ $status = ['Start', 'Pending', 'Finish'];
         @endif
         <div class="card">
             <div class="card-body">
-               
+                <h4 class="card-title mb-4">Edit New Task</h4>
                 <form action="{{ route('tasks.update', $task->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
                     <div data-repeater-list="outer-group" class="outer">
                         <div data-repeater-item class="outer">
                             <div class="form-group row mb-4">
                                 <label for="taskname" class="col-form-label col-lg-2">Task Name</label>
                                 <div class="col-lg-10">
-                                    <input id="taskname" name="taskname" type="text" class="form-control" placeholder="Enter Task Name..." value="{{$task->task}}" required disabled>
+                                    <input id="taskname" name="taskname" type="text" class="form-control" placeholder="Enter Task Name..." value="{{$task->task}}" required>
                                 </div>
                             </div>
                             <div class="form-group row mb-4">
                                 <label class="col-form-label col-lg-2">Task Date</label>
                                 <div class="col-lg-10">
                                     <div class="input-daterange input-group" data-provide="datepicker">
-                                        <input type="text" class="form-control" placeholder="Start Date" name="start" id="start" value="{{ date('d/m/Y', strtotime($task->start_date)) }}" required  disabled/>
-                                        <input type="text" class="form-control" placeholder="End Date" name="end" id="end" value="{{ date('d/m/Y', strtotime($task->end_date)) }}" required disabled/>
+                                        <input type="text" class="form-control" placeholder="Start Date" name="start" id="start" value="{{ date('d/m/Y', strtotime($task->start_date)) }}" required />
+                                        <input type="text" class="form-control" placeholder="End Date" name="end" id="end" value="{{ date('d/m/Y', strtotime($task->end_date)) }}" required />
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group row mb-4">
                                 <label for="taskbudget" class="col-form-label col-lg-2">Employee</label>
                                 <div class="col-lg-10">
-                                    <select class="form-control select2" name="employee" data-placeholder="Choose ..." disabled>
+                                    <select class="form-control select2" name="employee" data-placeholder="Choose ...">
                                         <option value="">Select Employee</option>
 
                                         @foreach($emp as $employee)
@@ -64,7 +66,7 @@ $status = ['Start', 'Pending', 'Finish'];
                             <div class="form-group row mb-4">
                                 <label for="taskbudget" class="col-form-label col-lg-2">Status</label>
                                 <div class="col-lg-10">
-                                    <select class="form-control select2" name="status" data-placeholder="Choose ..." disabled>
+                                    <select class="form-control select2" name="status" data-placeholder="Choose ...">
                                         <option value="">Select Status</option>
                                         @foreach($status as $key => $value)
                                         <option value="{{$key}}" {{ ($key === $task->status) ? 'selected' : '' }}>{{$value}}</option>
@@ -77,9 +79,7 @@ $status = ['Start', 'Pending', 'Finish'];
                     </div>
                     <div class="row justify-content-end">
                         <div class="col-lg-10">
-                        <div class="col-lg-10">
-                            <a href="{{ route('tasks.index') }}" class="btn btn-primary">Back</a>
-                        </div>
+                            <button type="submit" class="btn btn-primary">Create Task</button>
                         </div>
                     </div>
                 </form>

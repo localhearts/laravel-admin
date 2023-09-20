@@ -25,33 +25,60 @@ class ReportController extends Controller
     public function index(Request $request)
     {
 
+        if (Auth::user()->roles == '1') {
+            if ($request->ajax()) {
+
+                $data = Report::with(['employee' => function ($query) {
+                    $query->select('id', 'fullname');
+                    
+                }])
+                    ->with(['task' => function ($query) {
+                        $query->select('id', 'task');
+                    }])
+                    ->get();
 
 
+                return Datatables::of($data)->addIndexColumn()
+                    ->addColumn('action', function ($row) {
+                        $btn = '<a href="/daily/' . $row->id . '" class="btn btn-primary btn-sm">V</a> <a href="/tasks/' . $row->id . '/edit" class="btn btn-warning btn-sm">E</a> <form action="/daily/' . $row->id . '" method="POST" style="display: inline-block;">
+                     <input type="hidden" name="_method" value="DELETE">
+                     <input type="hidden" name="_token" value="' . csrf_token() . '">
+                     <button type="submit" class="btn btn-danger btn-sm">D</button>
+                 </form>';
+                        return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+            }
+            return view('reports.index');
+        } else {
+            if ($request->ajax()) {
 
-        if ($request->ajax()) {
+                $data = Report::with(['employee' => function ($query) {
+                    $query->select('id', 'fullname');
+                    
+                }])
+                    ->with(['task' => function ($query) {
+                        $query->select('id', 'task');
+                    }])
+                    ->where('employee_id', Auth::user()->employee_id)
+                    ->get();
 
-           $data = Report::with(['employee' => function ($query) {
-                $query->select('id', 'fullname');
-            }])
-            ->with(['task' => function ($query) {
-                $query->select('id', 'task');
-            }]) 
-                ->get();
-   
 
-            return Datatables::of($data)->addIndexColumn()
-                ->addColumn('action', function ($row) {
-                    $btn = '<a href="/daily/'.$row->id.'" class="btn btn-primary btn-sm">V</a> <a href="/tasks/'.$row->id.'/edit" class="btn btn-warning btn-sm">E</a> <form action="/daily/'.$row->id.'" method="POST" style="display: inline-block;">
-                    <input type="hidden" name="_method" value="DELETE">
-                    <input type="hidden" name="_token" value="'.csrf_token().'">
-                    <button type="submit" class="btn btn-danger btn-sm">D</button>
-                </form>';
-                    return $btn;
-                })
-                ->rawColumns(['action'])
-                ->make(true);
+                return Datatables::of($data)->addIndexColumn()
+                    ->addColumn('action', function ($row) {
+                        $btn = '<a href="/daily/' . $row->id . '" class="btn btn-primary btn-sm">V</a> <a href="/tasks/' . $row->id . '/edit" class="btn btn-warning btn-sm">E</a> <form action="/daily/' . $row->id . '" method="POST" style="display: inline-block;">
+                     <input type="hidden" name="_method" value="DELETE">
+                     <input type="hidden" name="_token" value="' . csrf_token() . '">
+                     <button type="submit" class="btn btn-danger btn-sm">D</button>
+                 </form>';
+                        return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+            }
+            return view('reports.index');
         }
-        return view('reports.index');
     }
 
     /**
@@ -61,7 +88,7 @@ class ReportController extends Controller
      */
     public function create()
     {
-        $task = Task::where('status', '0')->get();
+        $task = Task::where('status', '0')->where('employee_id', Auth::user()->employee_id)->get();
 
         return view('reports.create', compact('task'));
     }
@@ -79,8 +106,8 @@ class ReportController extends Controller
             'image' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
         ]);
         $emp = Auth::user()->employee_id;
-        $imageName = time().'.'.$request->image->extension();  
-     
+        $imageName = time() . '.' . $request->image->extension();
+
         $request->image->move(public_path('images'), $imageName);
 
         $data = Report::create([
@@ -99,9 +126,9 @@ class ReportController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Report $daily)
-    {   
+    {
         $task = Task::find($daily->task_id);
-        return view('reports.show',compact('daily','task'));
+        return view('reports.show', compact('daily', 'task'));
     }
 
     /**
@@ -135,11 +162,9 @@ class ReportController extends Controller
      */
     public function destroy(Report $daily)
     {
-        unlink(public_path('images').'/'.$daily->capture);
+        unlink(public_path('images') . '/' . $daily->capture);
 
         $daily->delete();
         return redirect()->route('daily.index')->with('success', 'Report Deleted Successfully');
-
-      
     }
 }

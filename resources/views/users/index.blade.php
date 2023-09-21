@@ -16,7 +16,21 @@
 
     <div class="row">
         <div class="col-12">
+        @if (\Session::has('success'))
+        <div class="alert alert-success alert-dismissible" role="alert">{!! \Session::get('success') !!}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @endif
             <div class="card">
+            <div class="card-header bg-transparent border-bottom text-uppercase">
+                <div class="text-end">
+
+                @if(Auth::user()->roles == '1')
+                    <a class="btn btn-success waves-effect waves-light" href="{{route('user-management.create')}}">
+                        <i class="bx bx-plus font-size-20 align-middle me-2"></i> ADD USER
+                    </a>
+                </div>
+                @endif
+            </div>
                 <div class="card-body">
                     <table id="datatable" class="table table-bordered dt-responsive  nowrap w-100">
                         <thead>

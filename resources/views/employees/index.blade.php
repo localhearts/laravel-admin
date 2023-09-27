@@ -31,9 +31,9 @@
                         <i class="bx bx-archive-out font-size-20 align-middle me-2"></i> IMPORT
                     </button>
 
-                    <button type="button" class="btn btn-success waves-effect waves-light">
-                        <i class="bx bx-archive-in font-size-20 align-middle me-2"></i> EXPORT
-                    </button>
+                    <a href="{{ asset('template/karyawan-template.xlsx') }}"  class="btn btn-success waves-effect waves-light" download>
+                        <i class="bx bx-archive-in font-size-20 align-middle me-2"></i> DOWNLOAD TEMPLATE
+                    </a>
                 </div>
             </div>
             <div class="card-body">

@@ -29,4 +29,5 @@ return [
   "Error_404" => "Halaman Tidak Ditemukan",
   "Create" => "Buat",
   "Edit" => "Ubah",
+  "Notice" => "Laporan Pengingat",
 ];

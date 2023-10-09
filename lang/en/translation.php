@@ -28,4 +28,5 @@ return [
   "Error_404" => "Page Not Found",
   "Create" => "Create",
   "Edit" => "Edit",
+  "Notice" => "Daily Notification",
 ];

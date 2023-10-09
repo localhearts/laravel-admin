@@ -46,6 +46,8 @@ Route::resources([
     'daily' => App\Http\Controllers\ReportController::class,
 ]);
 
+route::get('notice', [App\Http\Controllers\EmployeeController::class, 'report'])->name('emp.notice');
+
 //Tasks List
 //Route::resource('tasks', [App\Http\Controllers\TaskController::class, 'index'])->name('tasks.index');
 //Tasks List

@@ -32,5 +32,13 @@ class Employee extends Model
     {
         return $this->hasOne(User::class);
     }
+    public function report()
+    {
+        return $this->hasMany(Report::class);
+    }
+    public function task()
+    {
+        return $this->hasMany(Task::class);
+    }
 }
 

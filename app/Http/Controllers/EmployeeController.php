@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 use Maatwebsite\Excel\Facades\Excel;
+use Carbon\Carbon;
 
 
 
@@ -28,7 +29,7 @@ class EmployeeController extends Controller
     public function index(Request $request)
     {
         if(Auth::user()->roles != '1'){
-            return abort(404);
+            return abort(403);
         }
         if ($request->ajax()) {
 
@@ -128,5 +129,29 @@ class EmployeeController extends Controller
         Excel::import(new ImportEmployee, request()->file('file'));
             
         return back()->with('success','Data added Successfully');
+    }
+
+    public function report(Request $request){
+
+        if(Auth::user()->roles != '1'){
+            return abort(403);
+        }
+
+        if ($request->ajax()) {
+
+        $data = Employee::withCount(['report' => function ($query) {
+            $query->whereDate('created_at', Carbon::today());
+        }])
+        ->withCount(['task'])
+        ->get();
+
+        return Datatables::of($data)->addIndexColumn()
+        ->make(true);
+
+      }   
+
+      return view('employees.notice');
+       
+     
     }
 }

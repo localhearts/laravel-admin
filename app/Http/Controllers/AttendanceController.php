@@ -21,7 +21,7 @@ class AttendanceController extends Controller
     public function index(Request $request)
     {
         if(Auth::user()->roles != '1'){
-            return abort(404);
+            return abort(403);
         }
         if ($request->ajax()) {
 

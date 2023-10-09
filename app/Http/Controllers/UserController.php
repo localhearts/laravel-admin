@@ -24,7 +24,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         if (Auth::user()->roles != '1') {
-            return abort(404);
+            return abort(403);
         }
 
         if ($request->ajax()) {
@@ -61,7 +61,7 @@ class UserController extends Controller
     public function create()
     {
         if (Auth::user()->roles != '1') {
-            return abort(404);
+            return abort(403);
         }
 
         $emp = Employee::all();
@@ -79,7 +79,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         if (Auth::user()->roles != '1') {
-            return abort(404);
+            return abort(403);
         }
         $this->validate($request, [
             'email' => 'required|regex:/(.+)@(.+)\.(.+)/i|unique:users,email',
@@ -111,9 +111,9 @@ class UserController extends Controller
     public function show(User $user_management)
     {
         if (Auth::user()->roles != '1') {
-            return abort(404);
+            return abort(403);
         }
-        dd($user_management);
+        
         //
     }
 
@@ -126,7 +126,7 @@ class UserController extends Controller
     public function edit(User $user_management)
     {
         if (Auth::user()->roles != '1') {
-            return abort(404);
+            return abort(403);
         }
         
         $emp = Employee::all();
@@ -145,7 +145,7 @@ class UserController extends Controller
     public function update(Request $request, User $user_management)
     {
         if (Auth::user()->roles != '1') {
-            return abort(404);
+            return abort(403);
         }
 
         $this->validate($request, [
@@ -153,12 +153,13 @@ class UserController extends Controller
             'employee' => 'required|unique:users,employee_id,' . $user_management->id,
             'roles' => 'required',
         ]);
-
-        $user_management->update([
+       
+        $user_management = User::where('id',$user_management->id)->update([
             'email' => $request->email,
             'employee_id' => $request->employee,
             'roles' => $request->roles,
         ]);
+        
 
         return redirect()->route('user-management.index')->with('success', 'User Updated Successfully');
 
@@ -174,7 +175,7 @@ class UserController extends Controller
     public function destroy(User $user_management)
     {
         if (Auth::user()->roles != '1') {
-            return abort(404);
+            return abort(403);
         }
         
         $user_management->delete();

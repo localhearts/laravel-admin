@@ -72,12 +72,14 @@
             </div>
 
             <div class="dropdown d-inline-block">
-                <button type="button" class="btn header-item noti-icon waves-effect">
+                <a href="{{ URL('notice') }}" target="_blank" rel="noopener noreferrer">
+                <button  type="button" class="btn header-item noti-icon waves-effect">
                     <i class="bx bx-bell bx-tada"></i>
                 </button>
+</a>
             </div>
 
-     
+
             <div class="dropdown d-inline-block">
                 <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img class="rounded-circle header-profile-user" src="{{ isset(Auth::user()->avatar) ? asset(Auth::user()->avatar) : asset('/assets/images/users/avatar-1.jpg') }}" alt="Header Avatar">
